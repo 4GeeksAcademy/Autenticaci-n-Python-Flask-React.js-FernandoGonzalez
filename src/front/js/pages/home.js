@@ -1,26 +1,26 @@
-import React, { useContext } from "react";
-import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/home.css";
 
 export const Home = () => {
-	const { store, actions } = useContext(Context);
-
+	const navigate = useNavigate();
 	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
+		<div className="container-fluid py-5 text-center">
+			<div className="row">
+				<div className="col-12">
+					<h1>Bienvenido al sistema de registro de usuarios</h1>
+				</div>
 			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://start.4geeksacademy.com/starters/react-flask">
-					Read documentation
-				</a>
-			</p>
+			<div className="card">
+				<img src="https://i.pinimg.com/564x/f8/15/79/f81579b700e1f0272242f1d3aa62c52c.jpg" className="card-img-top" alt="..." />
+			</div>
+			<div className="row mt-5">
+				<div className="col-12 text-center">
+					<button type="button" onClick={() => navigate("/login")} className="btn btn-primary btn-lg me-5">Inicia sesión</button>
+					<button type="button" onClick={() => navigate("/register")} className="btn btn-success btn-lg">Regístrate</button>
+				</div>
+			</div>
 		</div>
 	);
 };
+

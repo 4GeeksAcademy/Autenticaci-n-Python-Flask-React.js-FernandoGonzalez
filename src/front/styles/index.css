@@ -1,3 +1,37 @@
-/* 
-    General Styles used on every website (Don't Repeat Yourself)
-*/
+body {
+    background-color: rgb(255, 240, 240);
+}
+h1 {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 41px;
+    color: rgb(92, 92, 247);
+}
+.home {
+    display: flex;
+    transform: translateX(8%) translateY(-123%);
+    font-size: 15px;
+    width: 1300px;
+}
+.btn-a {
+    border: none;
+    border-radius: 4px;
+    height: 34px;
+    width: 120px;
+    font-size: 17px;
+    padding: 0;
+}
+.btn-b {
+    border: none;
+    border-radius: 4px;
+    height: 34px;
+    width: 120px;
+    font-size: 17px;
+    padding: 0;
+}
+.come {
+    display: flex;
+    transform: translateX(11%) translateY(-123%);
+    font-size: 15px;
+    width: 1300px;
+}
