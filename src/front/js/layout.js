@@ -1,34 +1,37 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
-import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 import { Private } from "./pages/private";
-import injectContext from "./store/appContext";
+import injectContext, { Context } from "./store/appContext";
 
+import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+import PrivateRoute from "./component/privateRoute";
 
-//create your first component
 const Layout = () => {
-    //the basename is used when your project is published in a subdirectory and not in the root of the domain
-    // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
+    const { actions } = useContext(Context);
     const basename = process.env.BASENAME || "";
 
-    if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
+    useEffect(() => {
+        actions.loadUserFromToken();
+    }, []);
 
     return (
         <div>
             <BrowserRouter basename={basename}>
+                <ScrollToTop>
                     <Routes>
-                        <Route element={<Home />} path="/" />
-                        <Route element={<Login />} path="/login" />
-                        <Route element={<Register />} path="/register" />
-                        <Route element={<Private />} path="/private" />
-                        <Route element={<h1>Not found!</h1>} />
+                        <Route path="/" element={<Home />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/private" element={<PrivateRoute><Private /></PrivateRoute>} />
+                        <Route path="*" element={<h1>Not found!</h1>} />
                     </Routes>
+                </ScrollToTop>
             </BrowserRouter>
         </div>
     );

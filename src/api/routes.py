@@ -59,4 +59,41 @@ def private():
 
     print(f", ID: {user.id}, Password: {user.password}")
     return jsonify({"id": user.id, "email": user.email }), 200
+
+@api.route("/user", methods=["GET"])
+@jwt_required()
+def get_user():
+    try:
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
+
+        if not user:
+            return jsonify({"msg": "User not found"}), 404
+
+        return jsonify({"user": user.serialize()}), 200
+    except Exception as e:
+        logger.error(f"Error: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api.route('/login', methods=['POST'])
+def handle_login():
+    try:
+        request_body = request.get_json()
+        email = request_body.get("email", None)
+        password = request_body.get("password", None)
+
+        if not email or not password:
+            return jsonify({"msg": "Email and password are required"}), 400
+
+        user = User.query.filter_by(email=email).first()
+        if not user or not user.password == password:
+            return jsonify({"msg": "Bad email or password"}), 401
+
+        access_token = create_access_token(identity=user.id)
+        return jsonify({"token": access_token}), 200
+    except Exception as e:
+        logger.error(f"Error: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
     

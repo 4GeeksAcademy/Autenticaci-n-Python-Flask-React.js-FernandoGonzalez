@@ -1,53 +1,57 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const Login = () => {
-    const { actions } = useContext(Context);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(null);
-    
+    const { actions } = useContext(Context);
+    const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
+    const handleLogin = async (event) => {
+        event.preventDefault();
         try {
-            const response = await actions.login(email, password);
-            if (response && response.token) {
-                window.location.href = "/private";
-            }
+            await actions.login(email, password);
+            navigate("/private");
         } catch (error) {
-            setError("Tu contraseña o email es incorrecta");
+            console.error("Login failed:", error);
         }
-    }
-
+    };
 
     return (
-        <div className="container-fluid py-5">
-            <h1>Inicia Sesion</h1>
+        <div className="container-fluid py-3">
+            <h1>Inicia sesión</h1>
             <form onSubmit={handleLogin}>
                 <div className="mb-3">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                    <input type="email"
+                    <label htmlFor="email" className="form-label">Email address</label>
+                    <input
+                        type="email"
                         className="form-control"
-                        id="exampleInputEmail1"
-                        // value={email}
+                        id="email"
+                        value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        aria-describedby="emailHelp" />
-                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                    />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                    <input type="password"
-                        className="form-control"
-                        id="exampleInputPassword1"
-                        // value={password}
-                        onChange={(e) => setPassword(e.target.value)} />
+                    <label htmlFor="password" className="form-label">Password</label>
+                    <div className="input-group">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            className="form-control"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <span className="input-group-text" onClick={() => setShowPassword(!showPassword)}>
+                            <i className={showPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}></i>
+                        </span>
+                    </div>
                 </div>
-                {error && <div className="alert alert.danger" role="alert">{error}</div>}
-                <button type="submit" className="btn-b btn-primary">Login</button>
-                <Link to="/" className="come">Come Back to Home</Link>
+                <button type="submit" className="btn-a">Login</button>
+                <Link to="/" className="home">Come Back to Home</Link>
             </form>
         </div>
     );
 };
+

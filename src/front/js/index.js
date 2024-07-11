@@ -1,12 +1,17 @@
-//import react into the bundle
 import React from "react";
-import ReactDOM from "react-dom";
-
-//include your index.scss file into the bundle
-import "../styles/index.css";
-
-//import your own components
+import ReactDOM from "react-dom/client";
 import Layout from "./layout";
 
-//render your react application
-ReactDOM.render(<Layout />, document.querySelector("#app"));
+const rootElement = document.getElementById("app"); 
+if (rootElement) {
+    const root = ReactDOM.createRoot(rootElement);
+    root.render(
+        <React.StrictMode>
+            <Layout />
+        </React.StrictMode>
+    );
+} else {
+    console.error("No se encontró un elemento con el ID 'app'.");
+}
+
+

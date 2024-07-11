@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -65,13 +66,11 @@ export const Register = () => {
                         </span>
                     </div>
                 </div>
-                <button type="submit" className="btn btn-primary">Register</button>
+                <button type="submit" className="btn-a">Register</button>
                 <Link to="/" className="home">Come Back to Home</Link>
             </form>
             {message && <div className="mt-3 alert alert-info">{message}</div>}
         </div>
     );
 };
-
-
 
