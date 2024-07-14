@@ -1,10 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 
 export const Private = () => {
-    const { actions } = useContext(Context);
+    const { store, actions } = useContext(Context);
+    const { user } = store;
     const navigate = useNavigate();
+
+    useEffect(() => {
+        actions.getPrivateData();
+    }, []);
 
     const handleLogout = () => {
         alert("See you next time!");
@@ -14,14 +19,23 @@ export const Private = () => {
 
     return (
         <div className="container-fluid">
-            <h1>Mi Perfil</h1>
-            <img src="https://image.tmdb.org/t/p/original/1r8TWaAExHbFRzyqT3Vcbq1XZQb.jpg" className="card" alt="..." />
-            <button onClick={handleLogout} className="btn-c">
-                Cerrar Sesión
-            </button>
+            {user ? (
+                <>
+                    <h1>Mi Perfil, {user.email}</h1>
+                    <p>Role: {user.role}</p>
+                    <img src="https://image.tmdb.org/t/p/original/1r8TWaAExHbFRzyqT3Vcbq1XZQb.jpg" className="card" alt="..." />
+                    <button onClick={handleLogout} className="btn-c">
+                        Cerrar Sesión
+                    </button>
+                </>
+            ) : (
+                <p>actualizando los datos del usuario...</p>
+            )}
         </div>
     );
 };
+
+
 
 
 

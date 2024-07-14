@@ -52,7 +52,7 @@ h1 {
     width: 1300px;
 }
 .btn-c {
-    transform: translateY(-2416%) translateX(1000%);
+    transform: translateY(-2542%) translateX(1000%);
     background-color: rgba(0, 0, 255, 0.801);
     color: white;
     border: none;
@@ -61,4 +61,8 @@ h1 {
     width: 120px;
     font-size: 17px;
     padding: 0;
+}
+p {
+    display: flex;
+    transform: translateY(-310%);
 }
