@@ -1,37 +1,29 @@
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 export const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const { actions } = useContext(Context);
 
     const handleRegister = async (event) => {
         event.preventDefault();
 
-        const response = await fetch('https://verbose-broccoli-pj7679g4qw5q397x7-3001.app.github.dev/api/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
-        });
-
-        const data = await response.json();
-        if (response.ok) {
+        try {
+            const data = await actions.register(email, password);
             setMessage("User registered successfully");
             console.log("User registered successfully", data);
             setTimeout(() => {
-                window.location.reload();  // Recargar la página después de 5 segundos
+                window.location.reload();
             }, 3000);
-        } else {
-            setMessage(`Error registering user: ${data.error}`);
-            console.log("Error registering user", data);
+
+        } catch (error) {
+            setMessage(`Error registering user: ${error.message}`);
+            console.log("Error registering user", error);
         }
     };
 
@@ -73,4 +65,5 @@ export const Register = () => {
         </div>
     );
 };
+
 

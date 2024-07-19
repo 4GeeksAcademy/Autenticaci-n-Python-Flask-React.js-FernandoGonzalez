@@ -41,6 +41,26 @@ const getState = ({ getStore, getActions, setStore }) => {
                 setStore({ demo: demo });
             },
 
+            register: async (email, password) => {
+                try {
+                    const resp = await fetch(process.env.BACKEND_URL + "/api/register", {
+                        method: "POST",
+                        headers: {
+                            "Content-type": "application/json"
+                        },
+                        body: JSON.stringify({ email, password })
+                    });
+                    const data = await resp.json();
+                    if (!resp.ok) {
+                        throw new Error(data.msg || "Error al registrar el usuario");
+                    }
+                    return data;
+                } catch (error) {
+                    console.log("Error al registrar el usuario", error);
+                    throw error;
+                }
+            },
+
             login: async (email, password) => {
                 try {
                     const resp = await fetch(process.env.BACKEND_URL + "/api/login", {
